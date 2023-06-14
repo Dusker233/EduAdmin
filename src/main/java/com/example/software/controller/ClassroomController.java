@@ -13,7 +13,7 @@ public class ClassroomController {
     @Autowired
     private ClassroomService classroomService;
 
-    public ClassroomController(ClassroomService classroomService) {
+    public void setClassroomService(ClassroomService classroomService) {
         this.classroomService = classroomService;
     }
 }

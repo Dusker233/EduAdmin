@@ -1,9 +1,11 @@
 package com.example.software.response;
 
+
 public class Response {
     protected Boolean status;
     protected String message;
     private Object data;
+
     public Response(Boolean status, String message, Object data) {
         this.status = status;
         this.message = message;

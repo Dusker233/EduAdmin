@@ -13,7 +13,7 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    public CourseController(CourseService courseService) {
+    public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
 }
