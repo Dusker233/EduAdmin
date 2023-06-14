@@ -1,23 +1,25 @@
 package com.example.software.pojo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
+@Table(name = "score")
 @IdClass(ScoreId.class)
 public class Score implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
     @Id
+    @Column(name = "course_id", nullable = false)
     private String courseId;
 
+    @Column(name = "score", nullable = false)
     private Integer score;
 
     public void setUserId(String userId) {
