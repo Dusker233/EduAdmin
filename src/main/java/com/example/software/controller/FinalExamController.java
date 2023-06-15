@@ -26,10 +26,10 @@ public class FinalExamController {
     @Autowired
     private ExamService examService;
     Random random = new Random();
-    Map<String, Set<String>> mapForNotAvailableMajorTime = new HashMap<>();
 
     @PostMapping("/arrange")
     public synchronized Response arrange() {
+        Map<String, Set<String>> mapForNotAvailableMajorTime = new HashMap<>();
         List<ExamApplication> examList = examService.getExamList();
         List<Classroom> classroomList = classroomService.getClassroomList();
         while(!classroomList.isEmpty() && !examList.isEmpty()) {

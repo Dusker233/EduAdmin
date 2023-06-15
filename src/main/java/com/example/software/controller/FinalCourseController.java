@@ -30,7 +30,6 @@ public class FinalCourseController {
     private CourseService courseService;
     @Autowired
     private ClassroomService classroomService;
-    Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
     Random random = new Random();
 
     public FinalCourseController(FinalCourseService finalCourseService) {
@@ -39,7 +38,7 @@ public class FinalCourseController {
 
     @PostMapping(path = "/arrange")
     public synchronized Response arrange() {
-
+        Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
         List<Course> courseList = courseService.getCourseList();
         List<Classroom> classroomList = classroomService.getClassroomList();
 
