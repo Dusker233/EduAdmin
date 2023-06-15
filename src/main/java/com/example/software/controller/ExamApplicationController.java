@@ -30,4 +30,9 @@ public class ExamApplicationController {
                 examFormat);
         return new Response(true, "", null);
     }
+
+    @GetMapping("/getExamList")
+    public synchronized Response getExamList() {
+        return new Response(true, "", examApplicationService.listAllApplication());
+    }
 }

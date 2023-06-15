@@ -5,6 +5,8 @@ import com.example.software.repository.FinalExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FinalExamService {
     @Autowired
@@ -16,5 +18,9 @@ public class FinalExamService {
 
     public void saveFinalExam(FinalExam finalExam) {
         finalExamRepository.save(finalExam);
+    }
+
+    public List<FinalExam> getFinalExamList() {
+        return finalExamRepository.findAll();
     }
 }

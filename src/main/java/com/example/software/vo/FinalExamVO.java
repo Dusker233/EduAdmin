@@ -14,6 +14,6 @@ public class FinalExamVO implements Serializable {
 
     private String examFormat;
 
-    private String classroomId;
+    private String classroomName;
 
 }

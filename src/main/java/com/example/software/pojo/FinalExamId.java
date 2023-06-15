@@ -7,8 +7,8 @@ import java.io.Serializable;
 public class FinalExamId implements Serializable {
     @Column(name = "exam_id", nullable = false, length = 20)
     private String examId;
-    @Column(name = "classroom_id", length = 20)
-    private String classroomId;
+    @Column(name = "classroom_name", length = 20)
+    private String classroomName;
     @Column(name = "exam_time", nullable = false, length = 20)
     private String examTime;
 
@@ -28,11 +28,11 @@ public class FinalExamId implements Serializable {
         this.examId = examId;
     }
 
-    public String getClassroomId() {
-        return classroomId;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 }

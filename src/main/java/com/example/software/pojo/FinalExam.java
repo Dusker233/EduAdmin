@@ -16,16 +16,26 @@ public class FinalExam {
     @Id
     @Column(name = "exam_time", nullable = false, length = 20)
     private String examTime;
+    @Column(name = "course_id", nullable = false)
+    private String courseId;
 
     @Column(name = "exam_format", length = 10)
     private String examFormat;
 
     @Id
-    @Column(name = "classroom_id", length = 20)
-    private String classroomId;
+    @Column(name = "classroom_name", length = 20)
+    private String classroomName;
 
     public String getExamId() {
         return examId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public void setExamId(String examId) {
@@ -56,12 +66,12 @@ public class FinalExam {
         this.examFormat = examFormat;
     }
 
-    public String getClassroomId() {
-        return classroomId;
+    public String getClassroomName() {
+        return classroomName;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setClassroomName(String classroomName) {
+        this.classroomName = classroomName;
     }
 
 }

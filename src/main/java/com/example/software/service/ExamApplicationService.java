@@ -1,9 +1,12 @@
 package com.example.software.service;
 
+import com.example.software.controller.ExamApplicationController;
 import com.example.software.pojo.ExamApplication;
 import com.example.software.repository.ExamApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ExamApplicationService {
@@ -25,5 +28,9 @@ public class ExamApplicationService {
         EA1.setCourseId(courseId);
         EA1.setExamFormat(examFormat);
         ExamApplicationRepository.save(EA1);
+    }
+
+    public List<ExamApplication> listAllApplication() {
+        return ExamApplicationRepository.findAll();
     }
 }

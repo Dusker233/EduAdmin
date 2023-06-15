@@ -8,10 +8,7 @@ import com.example.software.service.ClassroomService;
 import com.example.software.service.ExamService;
 import com.example.software.service.FinalExamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -50,15 +47,22 @@ public class FinalExamController {
                 finalExam.setExamId(exam.getExamId());
                 finalExam.setMajorId(exam.getMajorId());
                 finalExam.setExamTime(classroom.getFreeTime());
-                finalExam.setClassroomId(classroom.getClassroomId());
+                finalExam.setClassroomName(classroom.getClassroomName());
                 finalExam.setExamFormat(exam.getExamFormat());
+                finalExam.setCourseId(exam.getCourseId());
                 finalExamService.saveFinalExam(finalExam);
                 classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
                 mapForNotAvailableMajorTime.get(majorId).add(classroom.getFreeTime());
                 classroomList.remove(tmpIndex);
                 examList.remove(0);
+                examService.deleteExamByExamId(exam.getExamId());
             }
         }
         return new Response(true, "", null);
+    }
+
+    @GetMapping("/getFinalExamList")
+    public synchronized Response getFinalExamList() {
+        return new Response(true, "", finalExamService.getFinalExamList());
     }
 }

@@ -19,4 +19,8 @@ public class ExamService {
     public List<ExamApplication> getExamList() {
         return examRepository.findAll();
     }
+
+    public void deleteExamByExamId(String examId) {
+        examRepository.deleteByExamId(examId);
+    }
 }
