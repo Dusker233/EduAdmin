@@ -1,6 +1,5 @@
 package com.example.software.controller;
 
-import com.example.software.pojo.TeacherEvaluation;
 import com.example.software.pojo.User;
 import com.example.software.repository.TeacherEvaluationRepository;
 import com.example.software.response.Response;
@@ -31,9 +30,9 @@ public class TeacherEvaluationController {
     @PostMapping(path = "/viewteacherscore")
     public synchronized Response viewteacherscore(
             @RequestParam String courseId,
-            HttpSession httpSession){
+            HttpSession httpSession) {
         // 已经默认登录！！！！！！！！！！！！！！！！
-        User user =  userService.getUser((String) httpSession.getAttribute("user"));
+        User user = userService.getUser((String) httpSession.getAttribute("user"));
         String userId = user.getUserId();
         return new Response(true, "", teacherEvaluationService.getTeacherEvaluationsByUserId(userId));
 

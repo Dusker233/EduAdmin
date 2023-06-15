@@ -1,11 +1,13 @@
 package com.example.software.controller;
 
-import com.example.software.Utils;
+import com.example.software.pojo.StudentCourses;
 import com.example.software.pojo.TeacherEvaluation;
 import com.example.software.repository.*;
 import com.example.software.response.Response;
+import com.example.software.service.ClassroomService;
 import com.example.software.service.CourseService;
-import com.example.software.service.StudentCoursesService;
+import com.example.software.service.FinalCourseService;
+import com.example.software.service.ScoreService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +35,21 @@ public class StudentController {
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
+    private FinalCourseRepository finalCourseRepository;
+    @Autowired
     HttpSession httpSession;
 
-    // 选课课程表查询
+    // 课程表查询
     @GetMapping("/courses")
     public Response getCourses() {
         if (httpSession.getAttribute("user") == null)
             return new Response(false, "未登录", null);
         try {
             var courses = studentCoursesRepository.findByStudentId((String) httpSession.getAttribute("user"));
-            return new Response(true, "", courses.stream().map(StudentCoursesService::toDTO).collect(Collectors.toList()));
+            return new Response(true, "", courses.stream()
+                    .map(it -> finalCourseRepository.getReferenceById(it.getCourseId()))
+                    .map(FinalCourseService::toDTO)
+                    .collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
@@ -53,7 +60,7 @@ public class StudentController {
     @GetMapping("/classroom")
     public Response getClassroom() {
         try {
-            return new Response(true, "", classroomRepository.findAll().stream().filter(it -> it.getFreeNow() == 1).map(Utils::toDTO).collect(Collectors.toList()));
+            return new Response(true, "", classroomRepository.findAll().stream().filter(it -> it.getFreeNow() == 1).map(ClassroomService::toDTO).collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
@@ -66,16 +73,14 @@ public class StudentController {
         if (httpSession.getAttribute("user") == null)
             return new Response(false, "未登录", null);
         try {
-            return new Response(true, "", scoreRepository.findByUserId((String) httpSession.getAttribute("user")).stream().map(Utils::toDTO).collect(Collectors.toList()));
+            return new Response(true, "", scoreRepository.findByUserId((String) httpSession.getAttribute("user")).stream().map(ScoreService::toDTO).collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
         }
     }
 
-    /**
-     * 评教信息获取。返回未评教的课程列表
-     */
+    // 评教信息获取。返回未评教的课程列表
     @GetMapping("/evaluation")
     public Response getEvaluation() {
         if (httpSession.getAttribute("user") == null)
@@ -94,6 +99,8 @@ public class StudentController {
             return new Response(false, "服务器错误", null);
         }
     }
+
+    // 提交单条评教
     @PostMapping("/set_evaluation")
     public Response setEvaluation(@RequestParam String courseId, @RequestParam String score) {
         if (httpSession.getAttribute("user") == null)
@@ -111,4 +118,59 @@ public class StudentController {
             return new Response(false, "服务器错误", null);
         }
     }
+
+    // 选课课程表查询。注意！！对于已选中的不应使用/courses查询，而是/selected_courses
+    @GetMapping("/selectable")
+    public Response getSelectableCourses() {
+        if (httpSession.getAttribute("user") == null)
+            return new Response(false, "未登录", null);
+        try {
+            var selected = studentCoursesRepository.findByStudentId((String) httpSession.getAttribute("user"));
+            var selectable = courseRepository.findAll().stream()
+                    .filter(a -> selected.stream().noneMatch(
+                            b -> a.getCourseId().equals(b.getCourseId())
+                    ))
+                    .map(CourseService::toDTO).collect(Collectors.toList());
+            return new Response(true, "", selectable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(false, "服务器错误", null);
+        }
+    }
+
+    // 提交选课
+    @PostMapping("/select_course")
+    public Response selectCourse(@RequestParam String courseId) {
+        if (httpSession.getAttribute("user") == null)
+            return new Response(false, "未登录", null);
+        try {
+            var user = (String) httpSession.getAttribute("user");
+            var evaluation = new StudentCourses();
+            evaluation.setCourseId(courseId);
+            evaluation.setStudentId(user);
+            studentCoursesRepository.save(evaluation);
+            return new Response(true, "", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(false, "服务器错误", null);
+        }
+    }
+    // 选课系统中已选查询
+    @GetMapping("/selected_courses")
+    public Response getSelectedCourses() {
+        if (httpSession.getAttribute("user") == null)
+            return new Response(false, "未登录", null);
+        try {
+            var courses = studentCoursesRepository.findByStudentId((String) httpSession.getAttribute("user"));
+            return new Response(true, "", courses.stream()
+                    .map(it -> courseRepository.getReferenceById(it.getCourseId()))
+                    .map(CourseService::toDTO)
+                    .collect(Collectors.toList()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(false, "服务器错误", null);
+        }
+    }
+
+
 }
