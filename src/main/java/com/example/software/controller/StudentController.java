@@ -1,16 +1,14 @@
 package com.example.software.controller;
 
 import com.example.software.Utils;
+import com.example.software.pojo.TeacherEvaluation;
 import com.example.software.repository.*;
 import com.example.software.response.Response;
 import com.example.software.service.CourseService;
 import com.example.software.service.StudentCoursesService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
 
@@ -37,7 +35,7 @@ public class StudentController {
     @Autowired
     HttpSession httpSession;
 
-    // 课程表查询
+    // 选课课程表查询
     @GetMapping("/courses")
     public Response getCourses() {
         if (httpSession.getAttribute("user") == null)
@@ -91,6 +89,23 @@ public class StudentController {
                     )
             ).map(it -> CourseService.toDTO(courseRepository.getReferenceById(it.getCourseId())));
             return new Response(true, "", courses);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(false, "服务器错误", null);
+        }
+    }
+    @PostMapping("/set_evaluation")
+    public Response setEvaluation(@RequestParam String courseId, @RequestParam String score) {
+        if (httpSession.getAttribute("user") == null)
+            return new Response(false, "未登录", null);
+        try {
+            var user = (String) httpSession.getAttribute("user");
+            var evaluation = new TeacherEvaluation();
+            evaluation.setCourseId(courseId);
+            evaluation.setUserId(user);
+            evaluation.setTeacherScore(score);
+            teacherEvaluationRepository.save(evaluation);
+            return new Response(true, "", null);
         } catch (Exception e) {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
