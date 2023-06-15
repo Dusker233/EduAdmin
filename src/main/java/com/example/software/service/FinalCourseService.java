@@ -1,12 +1,15 @@
 package com.example.software.service;
 
 import com.example.software.dto.FinalCourseDTO;
+import com.example.software.pojo.Course;
 import com.example.software.pojo.FinalCourse;
+import com.example.software.pojo.StudentCourses;
 import com.example.software.repository.FinalCourseRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,5 +36,16 @@ public class FinalCourseService {
 
     public List<FinalCourse> getFinalCourseList() {
         return finalCourseRepository.getFinalCourseList();
+    }
+    public List<FinalCourse> findCourseByCourses(List<StudentCourses> courses) {
+        List<String> courseIds = new ArrayList<>();
+        for(StudentCourses course : courses) {
+            courseIds.add(course.getCourseId());
+        }
+        List<FinalCourse> courseList = new ArrayList<>();
+        for(String courseId : courseIds) {
+            courseList.addAll(finalCourseRepository.getCourseByCourseId(courseId));
+        }
+        return courseList;
     }
 }

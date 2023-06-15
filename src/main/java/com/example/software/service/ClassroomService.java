@@ -35,4 +35,9 @@ public class ClassroomService {
     public Classroom getClassroomByClassroomIdAndFreeTime(String classroomId, String freeTime) {
         return classroomRepository.getClassroomByClassroomIdAndFreeTime(classroomId, freeTime);
     }
+
+    public List<Classroom> getClassroomsByClassroomNameAndFreeTime(String classroomName, String day) {
+        return classroomRepository.getClassroomsByClassroomNameAndFreeTime(classroomName, day);
+    }
+
 }

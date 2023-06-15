@@ -62,6 +62,7 @@ public class FinalCourseController {
                     finalCourse.setClassroomId(classroom.getClassroomId());
                     finalCourse.setClassroomName(classroom.getClassroomName());
                     finalCourse.setFreeTime(classroom.getFreeTime());
+                    finalCourse.setCourseTeacher(userService.getUser(teacherId).getUserName());
                     finalCourseService.saveFinalCourse(finalCourse);
                     classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
                     mapForNotAvailableTeacherTime.get(teacherId).add(classroom.getFreeTime());

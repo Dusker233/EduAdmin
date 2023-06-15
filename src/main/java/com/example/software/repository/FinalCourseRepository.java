@@ -14,4 +14,7 @@ public interface FinalCourseRepository extends JpaRepository<FinalCourse, String
 
     @Query("select t from FinalCourse t")
     List<FinalCourse> getFinalCourseList();
+
+    @Query("select t from FinalCourse t where t.courseId = ?1")
+    List<FinalCourse> getCourseByCourseId(String courseId);
 }

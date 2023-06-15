@@ -68,4 +68,10 @@ public class ClassroomController {
         classroomApplicationService.deleteApplicationByUserIdAndClassroomIdAndNeedTime(userId, classroomId, needTime);
         return new Response(true, "", null);
     }
+
+    @PostMapping(path = "/getByWhereAndDay")
+    public Response getClassroomsByClassroomNameAndFreeTime(@RequestParam String classroomName, @RequestParam String day) {
+        return new Response(true, "", classroomService.getClassroomsByClassroomNameAndFreeTime(classroomName, day));
+    }
+
 }

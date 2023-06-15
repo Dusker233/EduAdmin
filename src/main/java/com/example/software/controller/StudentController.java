@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +38,8 @@ public class StudentController {
     @Autowired
     private FinalCourseRepository finalCourseRepository;
     @Autowired
+    private FinalCourseService finalCourseService;
+    @Autowired
     HttpSession httpSession;
 
     // 课程表查询
@@ -46,10 +49,7 @@ public class StudentController {
             return new Response(false, "未登录", null);
         try {
             var courses = studentCoursesRepository.findByStudentId((String) httpSession.getAttribute("user"));
-            return new Response(true, "", courses.stream()
-                    .map(it -> finalCourseRepository.getReferenceById(it.getCourseId()))
-                    .map(FinalCourseService::toDTO)
-                    .collect(Collectors.toList()));
+            return new Response(true, "", finalCourseService.findCourseByCourses(courses));
         } catch (Exception e) {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
@@ -140,7 +140,7 @@ public class StudentController {
 
     // 提交选课
     @PostMapping("/select_course")
-    public Response selectCourse(@RequestParam String courseId) {
+    public Response selectCourse(@RequestParam String courseId, @RequestParam String courseTime) {
         if (httpSession.getAttribute("user") == null)
             return new Response(false, "未登录", null);
         try {

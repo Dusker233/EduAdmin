@@ -22,7 +22,16 @@ public class FinalCourse {
     @Id
     @Column(name = "free_time", nullable = false)
     private String freeTime;
+    @Column(name = "course_teacher")
+    private String courseTeacher;
 
+    public String getCourseTeacher() {
+        return courseTeacher;
+    }
+
+    public void setCourseTeacher(String courseTeacher) {
+        this.courseTeacher = courseTeacher;
+    }
 
     public String getCourseId() {
         return courseId;
