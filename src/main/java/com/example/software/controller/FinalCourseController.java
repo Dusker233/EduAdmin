@@ -30,8 +30,8 @@ public class FinalCourseController {
     private CourseService courseService;
     @Autowired
     private ClassroomService classroomService;
-
     Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
+    Random random = new Random();
 
     public FinalCourseController(FinalCourseService finalCourseService) {
         this.finalCourseService = finalCourseService;
@@ -42,8 +42,6 @@ public class FinalCourseController {
 
         List<Course> courseList = courseService.getCourseList();
         List<Classroom> classroomList = classroomService.getClassroomList();
-
-        Random random = new Random();
 
         for(Course c: courseList) {
             int t = c.getCourseNum();

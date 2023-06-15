@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -26,16 +25,26 @@ public class FinalExamController {
     private FinalExamService finalExamService;
     @Autowired
     private ExamService examService;
+    Random random = new Random();
+    Map<String, Set<String>> mapForNotAvailableMajorTime = new HashMap<>();
 
     @PostMapping("/arrange")
     public synchronized Response arrange() {
         List<ExamApplication> examList = examService.getExamList();
         List<Classroom> classroomList = classroomService.getClassroomList();
-        Random random = new Random();
         while(!classroomList.isEmpty() && !examList.isEmpty()) {
             int tmpIndex = random.nextInt(classroomList.size());
             Classroom classroom = classroomList.get(tmpIndex);
             ExamApplication exam = examList.get(0);
+            String majorId = exam.getMajorId();
+            if(!mapForNotAvailableMajorTime.containsKey(majorId)) {
+                mapForNotAvailableMajorTime.put(majorId, new HashSet<>());
+            }
+            Set<String> notAvailableTime = mapForNotAvailableMajorTime.get(majorId);
+            while(notAvailableTime.contains(classroom.getFreeTime())) {
+                tmpIndex = random.nextInt(classroomList.size());
+                classroom = classroomList.get(tmpIndex);
+            }
             if(classroom.getFreeNow().equals(1)) {
                 FinalExam finalExam = new FinalExam();
                 finalExam.setExamId(exam.getExamId());
@@ -44,8 +53,8 @@ public class FinalExamController {
                 finalExam.setClassroomId(classroom.getClassroomId());
                 finalExam.setExamFormat(exam.getExamFormat());
                 finalExamService.saveFinalExam(finalExam);
-
                 classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
+                mapForNotAvailableMajorTime.get(majorId).add(classroom.getFreeTime());
                 classroomList.remove(tmpIndex);
                 examList.remove(0);
             }
