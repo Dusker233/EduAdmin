@@ -1,12 +1,10 @@
 package com.example.software.pojo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "final_course")
+@IdClass(FinalCourseId.class)
 public class FinalCourse {
 
     @Id
@@ -16,10 +14,12 @@ public class FinalCourse {
     private String courseName;
     @Column(name = "course_teacher_id", nullable = false)
     private String courseTeacherId;
+    @Id
     @Column(name = "classroom_id", nullable = false)
     private String classroomId;
     @Column(name = "classroom_name", nullable = false)
     private String classroomName;
+    @Id
     @Column(name = "free_time", nullable = false)
     private String freeTime;
 

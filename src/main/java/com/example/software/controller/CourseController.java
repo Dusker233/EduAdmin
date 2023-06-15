@@ -8,7 +8,6 @@ import com.example.software.response.Response;
 import com.example.software.service.CourseApplicationService;
 import com.example.software.service.CourseService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,5 +62,15 @@ public class CourseController {
         if(courseApplicationService.deleteCourseApplication(courseId))
             return new Response(true, "Reject successfully", null);
         return new Response(false, "Reject failed", null);
+    }
+
+    @GetMapping("/getCourseList")
+    public synchronized Response getCourseList() {
+        return new Response(true, "", courseService.getCourseList());
+    }
+
+    @GetMapping("/listApplication")
+    public synchronized Response getApplicationList() {
+        return new Response(true, "", courseApplicationService.getCourseApplicationList());
     }
 }

@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -32,6 +31,8 @@ public class FinalCourseController {
     @Autowired
     private ClassroomService classroomService;
 
+    Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
+
     public FinalCourseController(FinalCourseService finalCourseService) {
         this.finalCourseService = finalCourseService;
     }
@@ -44,35 +45,38 @@ public class FinalCourseController {
 
         Random random = new Random();
 
-        while (!classroomList.isEmpty() && !courseList.isEmpty()) {
-
-            int tmpIndex = random.nextInt(classroomList.size());
-            Classroom classroom = classroomList.get(tmpIndex);
-            Course course = courseList.get(0);
-            if(course.getCourseNum() <= 0) {
-                courseList.remove(0);
-                continue;
+        for(Course c: courseList) {
+            int t = c.getCourseNum();
+            String teacherId = c.getCourseTeacherId();
+            if(!mapForNotAvailableTeacherTime.containsKey(teacherId)) {
+                mapForNotAvailableTeacherTime.put(teacherId, new HashSet<>());
             }
-
-            if (classroom.getFreeNow().equals(1)) {
-
-                FinalCourse finalCourse = new FinalCourse();
-                finalCourse.setCourseId(course.getCourseId());
-                finalCourse.setCourseName(course.getCourseName());
-                finalCourse.setCourseTeacherId(course.getCourseTeacherId());
-                finalCourse.setClassroomId(classroom.getClassroomId());
-                finalCourse.setClassroomName(classroom.getClassroomName());
-                finalCourse.setFreeTime(classroom.getFreeTime());
-                finalCourseService.saveFinalCourse(finalCourse);
-
-                classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
-                classroomList.remove(tmpIndex);
-                course.setCourseNum(course.getCourseNum() - 1);
-                courseList.remove(0);
-                courseList.add(course);
+            Set<String> notAvailableTime = mapForNotAvailableTeacherTime.get(teacherId);
+            for(int i = 1;i <= t;i++) {
+                int tmpIndex = random.nextInt(classroomList.size());
+                Classroom classroom = classroomList.get(tmpIndex);
+                // check if the classroom is free now and the teacher is available
+                while(notAvailableTime.contains(classroom.getFreeTime())) {
+                    tmpIndex = random.nextInt(classroomList.size());
+                    classroom = classroomList.get(tmpIndex);
+                }
+                if(classroom.getFreeNow().equals(1)) {
+                    FinalCourse finalCourse = new FinalCourse();
+                    finalCourse.setCourseId(c.getCourseId());
+                    finalCourse.setCourseName(c.getCourseName());
+                    finalCourse.setCourseTeacherId(c.getCourseTeacherId());
+                    finalCourse.setClassroomId(classroom.getClassroomId());
+                    finalCourse.setClassroomName(classroom.getClassroomName());
+                    finalCourse.setFreeTime(classroom.getFreeTime());
+                    finalCourseService.saveFinalCourse(finalCourse);
+                    classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
+                    mapForNotAvailableTeacherTime.get(teacherId).add(classroom.getFreeTime());
+                    classroomList.remove(tmpIndex);
+                }
             }
-
+            c.setCourseNum(0);
         }
+        courseService.updateNumToZeroFinal();
         return new Response(true, "", null);
     }
 
@@ -82,7 +86,6 @@ public class FinalCourseController {
             return new Response(false, "未登录", null);
         User user =  userService.getUser((String) httpSession.getAttribute("user"));
         String userId = user.getUserId();
-//        return null;//寄
         return new Response(true, "", finalCourseService.getFinalCoursesByUserId(userId));
     }
 }

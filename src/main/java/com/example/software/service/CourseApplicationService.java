@@ -5,6 +5,8 @@ import com.example.software.repository.CourseApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseApplicationService {
     @Autowired
@@ -38,5 +40,9 @@ public class CourseApplicationService {
         courseA1.setCourseTeacherId(userId);
         courseA1.setCourseNum(courseNum);
         courseApplicationRepository.save(courseA1);
+    }
+
+    public List<CourseApplication> getCourseApplicationList() {
+        return courseApplicationRepository.getCourseApplicationList();
     }
 }

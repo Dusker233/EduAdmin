@@ -32,4 +32,8 @@ public class CourseService {
     public List<Course> getCourseList() {
         return courseRepository.getCourseList();
     }
+
+    public void updateNumToZeroFinal() {
+        courseRepository.updateNumToZeroFinal();
+    }
 }
