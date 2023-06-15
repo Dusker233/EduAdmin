@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FinalCourseService {
     @Autowired
@@ -16,6 +18,9 @@ public class FinalCourseService {
         this.finalCourseRepository = finalCourseRepository;
     }
 
+    public List<FinalCourse> getFinalCoursesByUserId(String userId){
+        return finalCourseRepository.getFinalCoursesByUserId(userId);
+    }
     public static FinalCourseDTO toDTO(FinalCourse original) {
         FinalCourseDTO bean = new FinalCourseDTO();
         BeanUtils.copyProperties(original, bean);

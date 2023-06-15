@@ -3,10 +3,13 @@ package com.example.software.controller;
 import com.example.software.pojo.Classroom;
 import com.example.software.pojo.Course;
 import com.example.software.pojo.FinalCourse;
+import com.example.software.pojo.User;
 import com.example.software.response.Response;
 import com.example.software.service.ClassroomService;
 import com.example.software.service.CourseService;
 import com.example.software.service.FinalCourseService;
+import com.example.software.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +23,8 @@ import java.util.Random;
 @CrossOrigin
 @RequestMapping(path = "/finalCourse")
 public class FinalCourseController {
+    @Autowired
+    private UserService userService;
     @Autowired
     private FinalCourseService finalCourseService;
     @Autowired
@@ -69,5 +74,15 @@ public class FinalCourseController {
 
         }
         return new Response(true, "", null);
+    }
+
+    @PostMapping(path = "/viewcourse")
+    public synchronized Response viewcourse(HttpSession httpSession){
+        if (httpSession.getAttribute("user") == null)
+            return new Response(false, "未登录", null);
+        User user =  userService.getUser((String) httpSession.getAttribute("user"));
+        String userId = user.getUserId();
+//        return null;//寄
+        return new Response(true, "", finalCourseService.getFinalCoursesByUserId(userId));
     }
 }

@@ -2,7 +2,6 @@ package com.example.software.controller;
 
 import com.example.software.pojo.Course;
 import com.example.software.pojo.CourseApplication;
-import com.example.software.pojo.CourseApplicationRepository;
 import com.example.software.pojo.User;
 import com.example.software.repository.UserRepository;
 import com.example.software.response.Response;

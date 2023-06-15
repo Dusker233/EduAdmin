@@ -1,7 +1,7 @@
 package com.example.software.service;
 
 import com.example.software.pojo.CourseApplication;
-import com.example.software.pojo.CourseApplicationRepository;
+import com.example.software.repository.CourseApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,9 @@ public class CourseApplicationService {
     public CourseApplication findById(String courseId) {
         return courseApplicationRepository.findById(courseId).orElse(null);
     }
+    public void setCourseApplicationRepository(CourseApplicationRepository courseApplicationRepository) {
+        this.courseApplicationRepository = courseApplicationRepository;
+    }
 
     public boolean deleteCourseApplication(String courseId) {
         try {
@@ -22,5 +25,18 @@ public class CourseApplicationService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void applyCourseByCourseIdNameUserIdAndCourseNum(
+            String courseId,
+            String courseName,
+            String userId,
+            Integer courseNum){
+        CourseApplication courseA1 = new CourseApplication();
+        courseA1.setCourseId(courseId);
+        courseA1.setCourseName(courseName);
+        courseA1.setCourseTeacherId(userId);
+        courseA1.setCourseNum(courseNum);
+        courseApplicationRepository.save(courseA1);
     }
 }
