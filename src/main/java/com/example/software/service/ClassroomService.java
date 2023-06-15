@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClassroomService {
     @Autowired
@@ -20,5 +22,13 @@ public class ClassroomService {
         ClassroomDTO bean = new ClassroomDTO();
         BeanUtils.copyProperties(original, bean);
         return bean;
+    }
+
+    public List<Classroom> getClassroomList() {
+        return classroomRepository.getClassroomList();
+    }
+
+    public void updateFreeNowToZeroByClassroomId(String classroomId) {
+        classroomRepository.updateFreeNowToZeroByClassroomId(classroomId);
     }
 }

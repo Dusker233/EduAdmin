@@ -21,4 +21,8 @@ public class FinalCourseService {
         BeanUtils.copyProperties(original, bean);
         return bean;
     }
+
+    public void saveFinalCourse(FinalCourse finalCourse) {
+        finalCourseRepository.save(finalCourse);
+    }
 }

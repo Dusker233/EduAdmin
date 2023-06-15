@@ -6,9 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "course")
-public class Course {
-
+@Table(name = "course_application")
+public class CourseApplication {
     @Id
     @Column(name = "course_id", nullable = false)
     private String courseId;

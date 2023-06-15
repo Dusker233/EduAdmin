@@ -1,74 +1,67 @@
 package com.example.software.pojo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-import java.io.Serializable;
+import jakarta.persistence.*;
 
 @Entity
-public class FinalExam implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+@Table(name = "final_exam")
+@IdClass(FinalExamId.class)
+public class FinalExam {
     @Id
+    @Column(name = "exam_id", nullable = false, length = 20)
     private String examId;
 
-    private String examName;
+    @Column(name = "major_id", nullable = false, length = 10)
+    private String majorId;
 
-    private String freeTime;
+    @Id
+    @Column(name = "exam_time", nullable = false, length = 20)
+    private String examTime;
 
+    @Column(name = "exam_format", length = 10)
     private String examFormat;
 
+    @Id
+    @Column(name = "classroom_id", length = 20)
     private String classroomId;
-
-    public void setExamId(String examId) {
-        this.examId = examId;
-    }
 
     public String getExamId() {
         return examId;
     }
 
-    public void setExamName(String examName) {
-        this.examName = examName;
+    public void setExamId(String examId) {
+        this.examId = examId;
     }
 
-    public String getExamName() {
-        return examName;
+    public String getMajorId() {
+        return majorId;
     }
 
-    public void setFreeTime(String freeTime) {
-        this.freeTime = freeTime;
+    public void setMajorId(String majorId) {
+        this.majorId = majorId;
     }
 
-    public String getFreeTime() {
-        return freeTime;
+    public String getExamTime() {
+        return examTime;
     }
 
-    public void setExamFormat(String examFormat) {
-        this.examFormat = examFormat;
+    public void setExamTime(String examTime) {
+        this.examTime = examTime;
     }
 
     public String getExamFormat() {
         return examFormat;
     }
 
-    public void setClassroomId(String classroomId) {
-        this.classroomId = classroomId;
+    public void setExamFormat(String examFormat) {
+        this.examFormat = examFormat;
     }
 
     public String getClassroomId() {
         return classroomId;
     }
 
-    @Override
-    public String toString() {
-        return "FinalExam{" +
-                "examId=" + examId + '\'' +
-                "examName=" + examName + '\'' +
-                "freeTime=" + freeTime + '\'' +
-                "examFormat=" + examFormat + '\'' +
-                "classroomId=" + classroomId + '\'' +
-                '}';
+    public void setClassroomId(String classroomId) {
+        this.classroomId = classroomId;
     }
+
 }
