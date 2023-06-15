@@ -73,4 +73,9 @@ public class CourseController {
     public synchronized Response getApplicationList() {
         return new Response(true, "", courseApplicationService.getCourseApplicationList());
     }
+
+    @GetMapping("/getOneCourseList")
+    public synchronized Response getOneCourseList() {
+        return new Response(true, "", courseService.getOneCourseList());
+    }
 }

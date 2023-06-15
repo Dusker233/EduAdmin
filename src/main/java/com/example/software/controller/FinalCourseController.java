@@ -11,10 +11,7 @@ import com.example.software.service.FinalCourseService;
 import com.example.software.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -84,5 +81,10 @@ public class FinalCourseController {
         User user =  userService.getUser((String) httpSession.getAttribute("user"));
         String userId = user.getUserId();
         return new Response(true, "", finalCourseService.getFinalCoursesByUserId(userId));
+    }
+
+    @GetMapping("/getFinalCourseList")
+    public synchronized Response getFinalCourseList() {
+        return new Response(true, "", finalCourseService.getFinalCourseList());
     }
 }

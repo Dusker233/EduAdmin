@@ -30,4 +30,8 @@ public class FinalCourseService {
     public void saveFinalCourse(FinalCourse finalCourse) {
         finalCourseRepository.save(finalCourse);
     }
+
+    public List<FinalCourse> getFinalCourseList() {
+        return finalCourseRepository.getFinalCourseList();
+    }
 }

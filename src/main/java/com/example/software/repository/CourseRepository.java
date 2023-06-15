@@ -22,4 +22,7 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Modifying
     @Query("update Course c set c.courseNum = 0 where c.courseNum = 1")
     void updateNumToZeroFinal();
+
+    @Query("select c from Course c where c.courseNum > 0")
+    List<Course> getOneCourseList();
 }

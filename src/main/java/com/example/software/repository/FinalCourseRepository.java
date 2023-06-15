@@ -11,4 +11,7 @@ import java.util.List;
 public interface FinalCourseRepository extends JpaRepository<FinalCourse, String> {
     @Query("select t from FinalCourse t where t.courseTeacherId = ?1")
     List<FinalCourse> getFinalCoursesByUserId(String userId);
+
+    @Query("select t from FinalCourse t")
+    List<FinalCourse> getFinalCourseList();
 }
