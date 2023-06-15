@@ -24,16 +24,14 @@ public class classroomInit {
         Generex generexTime = new Generex("(Mon|Tue|Wed|Thu|Fri),(08:00-09:50|10:10-12:00|14:30-16:20|16:40-18:30)");
         List<String> nameList = generexName.getAllMatchedStrings();
         List<String> timeList = generexTime.getAllMatchedStrings();
-        int cnt = 0;
         for(int i = 0;i < nameList.size();i++) {
-            for(int j = 0;j < timeList.size();j++) {
+            for (String s : timeList) {
                 Classroom classroom = new Classroom();
-                classroom.setClassroomId(String.valueOf(5000 + cnt));
+                classroom.setClassroomId(String.valueOf(5000 + i));
                 classroom.setClassroomName(nameList.get(i));
-                classroom.setFreeTime(timeList.get(j));
+                classroom.setFreeTime(s);
                 classroom.setFreeNow(1);
                 classroomRepository.save(classroom);
-                cnt++;
             }
         }
     }

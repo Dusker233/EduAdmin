@@ -17,9 +17,9 @@ public interface ClassroomRepository extends JpaRepository<Classroom, String> {
 
     @Transactional
     @Modifying
-    @Query("update Classroom c set c.freeNow = 0 where c.classroomId = ?1")
-    void updateFreeNowToZeroByClassroomId(String classroomId);
+    @Query("update Classroom c set c.freeNow = 0 where c.classroomId = ?1 and c.freeTime = ?2")
+    void updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(String classroomId, String freeTime);
 
-    @Query("select c from Classroom c where c.classroomId = ?1")
-    Classroom getClassroomByClassroomId(String classroomId);
+    @Query("select c from Classroom c where c.classroomId = ?1 and c.freeTime = ?2")
+    Classroom getClassroomByClassroomIdAndFreeTime(String classroomId, String freeTime);
 }

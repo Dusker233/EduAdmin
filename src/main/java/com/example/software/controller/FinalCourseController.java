@@ -60,7 +60,7 @@ public class FinalCourseController {
                 finalCourse.setFreeTime(classroom.getFreeTime());
                 finalCourseService.saveFinalCourse(finalCourse);
 
-                classroomService.updateFreeNowToZeroByClassroomId(classroom.getClassroomId());
+                classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
                 classroomList.remove(tmpIndex);
                 course.setCourseNum(course.getCourseNum() - 1);
                 courseList.remove(0);

@@ -45,7 +45,7 @@ public class FinalExamController {
                 finalExam.setExamFormat(exam.getExamFormat());
                 finalExamService.saveFinalExam(finalExam);
 
-                classroomService.updateFreeNowToZeroByClassroomId(classroom.getClassroomId());
+                classroomService.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroom.getClassroomId(), classroom.getFreeTime());
                 classroomList.remove(tmpIndex);
                 examList.remove(0);
             }

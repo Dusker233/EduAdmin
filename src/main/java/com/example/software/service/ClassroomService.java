@@ -28,7 +28,11 @@ public class ClassroomService {
         return classroomRepository.getClassroomList();
     }
 
-    public void updateFreeNowToZeroByClassroomId(String classroomId) {
-        classroomRepository.updateFreeNowToZeroByClassroomId(classroomId);
+    public void updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(String classroomId, String freeTime) {
+        classroomRepository.updateFreeNowToZeroByClassroomIdAndClassroomFreeTime(classroomId, freeTime);
+    }
+
+    public Classroom getClassroomByClassroomIdAndFreeTime(String classroomId, String freeTime) {
+        return classroomRepository.getClassroomByClassroomIdAndFreeTime(classroomId, freeTime);
     }
 }

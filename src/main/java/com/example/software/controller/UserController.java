@@ -31,7 +31,7 @@ public class UserController {
                     return new Response(false, "密码错误.", null);
                 } else {
                     httpSession.setAttribute("user", user.getUserId());
-                    return new Response(true, "登录成功.", user.getUserId());
+                    return new Response(true, "登录成功.", user);
                 }
             }
         }
