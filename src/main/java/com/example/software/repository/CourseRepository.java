@@ -15,6 +15,9 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Query("select c from Course c")
     List<Course> getCourseList();
 
+    @Query("select c from Course c where c.courseNum > 0")
+    List<Course> getOneCourseList();
+
     @Query("select c from Course c where c.courseId = ?1")
     Course getCourseByCourseId(String courseId);
 
@@ -23,6 +26,6 @@ public interface CourseRepository extends JpaRepository<Course, String> {
     @Query("update Course c set c.courseNum = 0 where c.courseNum = 1")
     void updateNumToZeroFinal();
 
-    @Query("select c from Course c where c.courseNum > 0")
-    List<Course> getOneCourseList();
+    @Query("select count(1) from Course c")
+    int countCourses();
 }

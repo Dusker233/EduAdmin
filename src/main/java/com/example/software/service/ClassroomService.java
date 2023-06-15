@@ -5,6 +5,7 @@ import com.example.software.pojo.Classroom;
 import com.example.software.repository.ClassroomRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,4 +41,7 @@ public class ClassroomService {
         return classroomRepository.getClassroomsByClassroomNameAndFreeTime(classroomName, day);
     }
 
+    public List<Classroom> getAllClassrooms() {
+        return classroomRepository.getAllClassrooms();
+    }
 }

@@ -35,9 +35,11 @@ public class FinalCourseController {
 
     @PostMapping(path = "/arrange")
     public synchronized Response arrange() {
-        Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
+
         List<Course> courseList = courseService.getCourseList();
         List<Classroom> classroomList = classroomService.getClassroomList();
+
+        Map<String, Set<String>> mapForNotAvailableTeacherTime = new HashMap<>();
 
         for(Course c: courseList) {
             int t = c.getCourseNum();

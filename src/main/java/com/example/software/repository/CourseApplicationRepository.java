@@ -11,4 +11,7 @@ import java.util.List;
 public interface CourseApplicationRepository extends JpaRepository<CourseApplication, String> {
     @Query("select c from CourseApplication c")
     List<CourseApplication> getCourseApplicationList();
+
+    @Query("select count(1) from CourseApplication c")
+    int countCourseApplications();
 }

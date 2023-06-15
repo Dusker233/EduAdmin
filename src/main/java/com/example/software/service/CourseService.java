@@ -2,13 +2,11 @@ package com.example.software.service;
 
 import com.example.software.dto.CourseDTO;
 import com.example.software.pojo.Course;
-import com.example.software.pojo.StudentCourses;
 import com.example.software.repository.CourseRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,5 +40,4 @@ public class CourseService {
     public List<Course> getOneCourseList() {
         return courseRepository.getOneCourseList();
     }
-
 }

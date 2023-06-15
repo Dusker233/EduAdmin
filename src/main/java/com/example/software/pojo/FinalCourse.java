@@ -14,6 +14,8 @@ public class FinalCourse {
     private String courseName;
     @Column(name = "course_teacher_id", nullable = false)
     private String courseTeacherId;
+    @Column(name = "course_teacher", nullable = false)
+    private String courseTeacher;
     @Id
     @Column(name = "classroom_id", nullable = false)
     private String classroomId;
@@ -22,16 +24,7 @@ public class FinalCourse {
     @Id
     @Column(name = "free_time", nullable = false)
     private String freeTime;
-    @Column(name = "course_teacher")
-    private String courseTeacher;
 
-    public String getCourseTeacher() {
-        return courseTeacher;
-    }
-
-    public void setCourseTeacher(String courseTeacher) {
-        this.courseTeacher = courseTeacher;
-    }
 
     public String getCourseId() {
         return courseId;
@@ -41,7 +34,6 @@ public class FinalCourse {
         this.courseId = courseId;
     }
 
-
     public String getCourseName() {
         return courseName;
     }
@@ -49,7 +41,6 @@ public class FinalCourse {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
-
 
     public String getCourseTeacherId() {
         return courseTeacherId;
@@ -59,6 +50,13 @@ public class FinalCourse {
         this.courseTeacherId = courseTeacherId;
     }
 
+    public String getCourseTeacher() {
+        return courseTeacher;
+    }
+
+    public void setCourseTeacher(String courseTeacher) {
+        this.courseTeacher = courseTeacher;
+    }
 
     public String getClassroomId() {
         return classroomId;
@@ -68,7 +66,6 @@ public class FinalCourse {
         this.classroomId = classroomId;
     }
 
-
     public String getClassroomName() {
         return classroomName;
     }
@@ -77,7 +74,6 @@ public class FinalCourse {
         this.classroomName = classroomName;
     }
 
-
     public String getFreeTime() {
         return freeTime;
     }
@@ -85,5 +81,4 @@ public class FinalCourse {
     public void setFreeTime(String freeTime) {
         this.freeTime = freeTime;
     }
-
 }

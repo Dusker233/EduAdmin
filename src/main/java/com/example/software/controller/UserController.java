@@ -46,4 +46,12 @@ public class UserController {
             return new Response(false, "尚未登录.", null);
         }
     }
+
+    @GetMapping(path = "/getUserName/{userId}")
+    public synchronized Response getUserName(@PathVariable(name = "userId") String userId) {
+        if (userService.getUser(userId) == null) {
+            return new Response(false, "用户不存在", null);
+        }
+        return new Response(true, "", userService.getUser(userId).getUserName());
+    }
 }

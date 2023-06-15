@@ -4,10 +4,7 @@ import com.example.software.pojo.StudentCourses;
 import com.example.software.pojo.TeacherEvaluation;
 import com.example.software.repository.*;
 import com.example.software.response.Response;
-import com.example.software.service.ClassroomService;
-import com.example.software.service.CourseService;
-import com.example.software.service.FinalCourseService;
-import com.example.software.service.ScoreService;
+import com.example.software.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +36,8 @@ public class StudentController {
     private FinalCourseRepository finalCourseRepository;
     @Autowired
     private FinalCourseService finalCourseService;
+    @Autowired
+    private StudentSelectionService studentSelectionService;
     @Autowired
     HttpSession httpSession;
 
@@ -140,15 +139,18 @@ public class StudentController {
 
     // 提交选课
     @PostMapping("/select_course")
-    public Response selectCourse(@RequestParam String courseId) {
+    public Response selectCourse(@RequestParam List<String> courseIdList) {
         if (httpSession.getAttribute("user") == null)
             return new Response(false, "未登录", null);
         try {
             var user = (String) httpSession.getAttribute("user");
-            var evaluation = new StudentCourses();
-            evaluation.setCourseId(courseId);
-            evaluation.setStudentId(user);
-            studentCoursesRepository.save(evaluation);
+            for (String courseId : courseIdList) {
+                var evaluation = new StudentCourses();
+                evaluation.setCourseId(courseId);
+                evaluation.setStudentId(user);
+                studentCoursesRepository.save(evaluation);
+            }
+            studentSelectionService.saveStudentSelection((String) httpSession.getAttribute("user"));
             return new Response(true, "", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,6 +172,11 @@ public class StudentController {
             e.printStackTrace();
             return new Response(false, "服务器错误", null);
         }
+    }
+
+    @GetMapping(path = "getCourseSelection")
+    public Response getCourseSelection() {
+        return new Response(true, "", studentSelectionService.getStudentSelectionByUserId((String) httpSession.getAttribute("user")));
     }
 
 

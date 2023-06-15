@@ -69,9 +69,13 @@ public class ClassroomController {
         return new Response(true, "", null);
     }
 
+    @GetMapping(path = "/getAllClassrooms")
+    public Response getAllClassrooms() {
+        return new Response(true, "", classroomService.getAllClassrooms());
+    }
+
     @PostMapping(path = "/getByWhereAndDay")
     public Response getClassroomsByClassroomNameAndFreeTime(@RequestParam String classroomName, @RequestParam String day) {
         return new Response(true, "", classroomService.getClassroomsByClassroomNameAndFreeTime(classroomName, day));
     }
-
 }

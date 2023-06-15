@@ -2,6 +2,7 @@ package com.example.software.service;
 
 import com.example.software.pojo.CourseApplication;
 import com.example.software.repository.CourseApplicationRepository;
+import com.example.software.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,8 @@ import java.util.List;
 public class CourseApplicationService {
     @Autowired
     private CourseApplicationRepository courseApplicationRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     public CourseApplication findById(String courseId) {
         return courseApplicationRepository.findById(courseId).orElse(null);
@@ -30,10 +33,15 @@ public class CourseApplicationService {
     }
 
     public void applyCourseByCourseIdNameUserIdAndCourseNum(
-            String courseId,
             String courseName,
             String userId,
             Integer courseNum){
+
+        int courseCount = courseRepository.countCourses();
+        int courseApplicationCount = courseApplicationRepository.countCourseApplications();
+
+        String courseId = String.valueOf(4001 + courseCount + courseApplicationCount);
+
         CourseApplication courseA1 = new CourseApplication();
         courseA1.setCourseId(courseId);
         courseA1.setCourseName(courseName);

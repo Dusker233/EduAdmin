@@ -24,6 +24,9 @@ public interface ClassroomRepository extends JpaRepository<Classroom, String> {
     @Query("select c from Classroom c where c.classroomId = ?1 and c.freeTime = ?2")
     Classroom getClassroomByClassroomIdAndFreeTime(String classroomId, String freeTime);
 
+    @Query("select c from Classroom c")
+    List<Classroom> getAllClassrooms();
+
     @Query("select c from Classroom c where c.classroomName like concat('%', :classroomName, '%') and c.freeTime like concat('%', :day, '%')")
     List<Classroom> getClassroomsByClassroomNameAndFreeTime(@Param("classroomName") String classroomName, @Param("day") String day);
 
