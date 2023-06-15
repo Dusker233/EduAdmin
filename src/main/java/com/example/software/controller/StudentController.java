@@ -140,7 +140,7 @@ public class StudentController {
 
     // 提交选课
     @PostMapping("/select_course")
-    public Response selectCourse(@RequestParam String courseId, @RequestParam String courseTime) {
+    public Response selectCourse(@RequestParam String courseId) {
         if (httpSession.getAttribute("user") == null)
             return new Response(false, "未登录", null);
         try {
