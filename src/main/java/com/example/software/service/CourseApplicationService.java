@@ -10,10 +10,11 @@ import java.util.List;
 
 @Service
 public class CourseApplicationService {
-    @Autowired
-    private CourseApplicationRepository courseApplicationRepository;
+
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private CourseApplicationRepository courseApplicationRepository;
 
     public CourseApplication findById(String courseId) {
         return courseApplicationRepository.findById(courseId).orElse(null);

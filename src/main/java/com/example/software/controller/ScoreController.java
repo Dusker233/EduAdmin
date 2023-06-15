@@ -18,9 +18,9 @@ public class ScoreController {
 
     @PostMapping(path = "/recordscore")
     public synchronized Response recordscore(
-            @RequestParam String userId,
+            @RequestParam Integer score,
             @RequestParam String courseId,
-            @RequestParam Integer score) {
+            @RequestParam String userId) {
         scoreService.setScoreByUserIdAndCourseId(score, courseId, userId);
         return new Response(true, "", null);
     }

@@ -1,13 +1,11 @@
 package com.example.software.pojo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
+@Table(name = "teacher_evaluation")
 @IdClass(TeacherEvaluationId.class)
 public class TeacherEvaluation implements Serializable {
 

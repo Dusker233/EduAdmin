@@ -3,6 +3,8 @@ package com.example.software.service;
 import com.example.software.controller.ExamApplicationController;
 import com.example.software.pojo.ExamApplication;
 import com.example.software.repository.ExamApplicationRepository;
+import com.example.software.repository.ExamRepository;
+import com.example.software.repository.FinalExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +14,26 @@ import java.util.List;
 public class ExamApplicationService {
     @Autowired
     private ExamApplicationRepository ExamApplicationRepository;
+    @Autowired
+    private ExamRepository examRepository;
+
+    @Autowired
+    private FinalExamRepository finalExamRepository;
 
     public void setExamApplicationRepository(com.example.software.repository.ExamApplicationRepository examApplicationRepository) {
         ExamApplicationRepository = examApplicationRepository;
     }
 
     public void applyExamByMajorCourseAndFormat(
-            String examId,
             String majorId,
             String courseId,
             String examFormat){
+
+        int finalExamCount = finalExamRepository.countFinalExams();
+        int examApplicationCount = ExamApplicationRepository.countExamApplications();
+
+        String examId = String.valueOf(6000 + finalExamCount + examApplicationCount);
+
         ExamApplication EA1 = new ExamApplication();
         EA1.setExamId(examId);
         EA1.setMajorId(majorId);

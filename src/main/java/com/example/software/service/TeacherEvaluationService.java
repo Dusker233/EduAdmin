@@ -19,6 +19,8 @@ public class TeacherEvaluationService {
     public List<TeacherEvaluation> getTeacherEvaluationsByUserId(String userId) {
         return teacherEvaluationRepository.getTeacherEvaluationsByUserId(userId);
     }
-
+//    public List<TeacherEvaluation> findCourseIdByUserId(String userId){
+//        return teacherEvaluationRepository.findCourseIdByUserId(userId);
+//    }
 
 }

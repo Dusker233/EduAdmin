@@ -12,4 +12,7 @@ public interface TeacherEvaluationRepository extends JpaRepository<TeacherEvalua
 
     //@Query("select t from TeacherEvaluation t where t.userId = ?1")
     List<TeacherEvaluation> getTeacherEvaluationsByUserId(String userId);
+
+    @Query("select c.courseId from Course c where c.courseTeacherId = ?1")
+    List<String> findCourseIdByUserId(String userId);
 }

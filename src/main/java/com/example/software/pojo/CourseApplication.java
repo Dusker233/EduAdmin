@@ -16,13 +16,13 @@ public class CourseApplication {
     @Column(name = "course_teacher_id", nullable = false)
     private String courseTeacherId;
     @Column(name = "course_num", nullable = false)
-    private int courseNum;
+    private Integer courseNum;
 
-    public int getCourseNum() {
+    public Integer getCourseNum() {
         return courseNum;
     }
 
-    public void setCourseNum(int courseNum) {
+    public void setCourseNum(Integer courseNum) {
         this.courseNum = courseNum;
     }
 

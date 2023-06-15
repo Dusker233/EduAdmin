@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/examapplication")
+@RequestMapping(path = "/examApplication")
 public class ExamApplicationController {
     @Autowired
     private ExamApplicationService examApplicationService;
@@ -16,15 +16,13 @@ public class ExamApplicationController {
     public ExamApplicationController(ExamApplicationService examApplicationService) {
         this.examApplicationService = examApplicationService;
     }
-    @PostMapping(path = "/examapplication")
+    @PostMapping(path = "/examApplication")
     public synchronized Response examapplication(
-            @RequestParam String examId,
             @RequestParam String majorId,
             @RequestParam String courseId,
             @RequestParam String examFormat
     ){
         examApplicationService.applyExamByMajorCourseAndFormat(
-                examId,
                 majorId,
                 courseId,
                 examFormat);
