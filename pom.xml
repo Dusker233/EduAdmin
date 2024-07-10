@@ -38,6 +38,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+<!--			<scope>runtime</scope>-->
+			<version>6.5.2.Final</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>
